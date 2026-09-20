@@ -7,7 +7,9 @@ const SERVER_ADMIN_USERS_URL = "/api/auth/admin/users";
 async function postAuth(url, body) {
   const response = await fetch(url, {
     method: "POST",
-    headers: { "Content-Type": "application/json" },
+    headers: {
+      "Content-Type": "application/json",
+    },
     credentials: "include",
     body: JSON.stringify(body),
   });
@@ -42,7 +44,8 @@ export async function getAdminUsers() {
 
   if (!response.ok) {
     throw new Error(
-      payload?.error?.message || "Could not load users."
+      payload?.error?.message ||
+        "Could not load users."
     );
   }
 
