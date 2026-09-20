@@ -1,5 +1,7 @@
 import express from "express";
 import cors from "cors";
+import path from "node:path";
+import { fileURLToPath } from "node:url";
 import { env } from "./config/env.js";
 
 import { isDatabaseConnected } from "./config/database.js";
@@ -13,6 +15,11 @@ import { notFound } from "./middleware/notFound.js";
 import { errorHandler } from "./middleware/errorHandler.js";
 import { optionalAuthentication } from "./middleware/optionalAuthentication.js";
 
+const frontendDistPath = path.resolve(
+  path.dirname(fileURLToPath(import.meta.url)),
+  "../frontend/dist"
+);
+
 export function createApp() {
   const app = express();
 
@@ -25,12 +32,6 @@ export function createApp() {
 
   app.use(express.json());
   app.use(optionalAuthentication);
-
-  app.get("/", (req, res) => {
-    res.json({
-      message: "AgentPay backend is running",
-    });
-  });
 
   app.get("/health", (req, res) => {
     const isConnected = isDatabaseConnected();
@@ -46,6 +47,24 @@ export function createApp() {
   app.use("/api/auth", authRoutes);
   app.use("/api/products", productSearchRoutes);
   app.use("/api/commerce", commerceRoutes);
+
+  app.use(express.static(frontendDistPath));
+  app.get("/", (req, res, next) => {
+    if (req.path !== "/") return next();
+
+    return res.json({
+      message: "AgentPay backend is running",
+    });
+  });
+  app.use((req, res, next) => {
+    if ((req.method !== "GET" && req.method !== "HEAD") || req.path.startsWith("/api/")) {
+      return next();
+    }
+
+    return res.sendFile(path.join(frontendDistPath, "index.html"), (error) => {
+      if (error) next(error);
+    });
+  });
 
   app.use(notFound);
   app.use(errorHandler);

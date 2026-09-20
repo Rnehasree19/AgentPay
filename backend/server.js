@@ -21,8 +21,8 @@ async function startServer() {
     console.log("MongoDB not configured. Continuing without database connection.");
   }
 
-  const server = app.listen(env.PORT, () => {
-    console.log(`Server running on http://localhost:${env.PORT}`);
+  const server = app.listen(env.PORT, "0.0.0.0", () => {
+    console.log(`Server running on http://0.0.0.0:${env.PORT}`);
   });
 
   const shutdown = async () => {
