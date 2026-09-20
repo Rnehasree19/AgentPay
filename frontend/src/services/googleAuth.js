@@ -1,5 +1,4 @@
-const API_URL =
-  "http://localhost:5000/api/auth/google";
+const API_URL = "/api/auth/google";
 
 export async function loginWithGoogle(credential) {
   const response = await fetch(API_URL, {
@@ -17,7 +16,9 @@ export async function loginWithGoogle(credential) {
 
   if (!response.ok) {
     throw new Error(
-      data?.error?.message || data.message || "Google sign-in failed."
+      data?.error?.message ||
+        data.message ||
+        "Google sign-in failed."
     );
   }
 
