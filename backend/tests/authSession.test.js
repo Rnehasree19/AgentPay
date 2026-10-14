@@ -1,3 +1,4 @@
+// Auth session tests: checks login, logout, and session security behavior.
 import test from "node:test";
 import assert from "node:assert/strict";
 
