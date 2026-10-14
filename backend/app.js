@@ -1,3 +1,4 @@
+// App entry: creates the Express API, routes, and frontend serving setup.
 import express from "express";
 import cors from "cors";
 import path from "node:path";
