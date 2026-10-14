@@ -1,3 +1,4 @@
+// Server startup: starts the Express app and connects MongoDB if configured.
 import dns from "node:dns";
 
 import { createApp } from "./app.js";
