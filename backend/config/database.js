@@ -1,3 +1,4 @@
+// Database config: connects and tracks MongoDB status for the backend.
 import mongoose from "mongoose";
 
 import { env } from "./env.js";
